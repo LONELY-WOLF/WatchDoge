@@ -13,7 +13,7 @@ namespace WatchDogeSync
 {
     public partial class Form1 : Form
     {
-        private bool exit = false;
+        private bool exit = false, hide = false;
 
         public Form1()
         {
@@ -133,6 +133,39 @@ namespace WatchDogeSync
         {
             exit = true;
             Close();
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            if(hide)
+            {
+                Hide();
+                hide = false;
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length > 1)
+            {
+                textPort.Text = args[1];
+                SetTime(0, 0, 0);
+                System.Threading.Thread.Sleep(2000);
+                if (SetTime(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second) == 0)
+                {
+                    labelStatus.Text = "Time set at app start";
+                    checkBoxSync.Checked = true;
+                    hide = true;
+                }
+                else
+                {
+                    MessageBox.Show("Cannot sync time. Application will be shut down.", "WatchDogeSync", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Environment.Exit(1);
+                }
+            }
+            Top = Screen.PrimaryScreen.WorkingArea.Height - Height;
+            Left = Screen.PrimaryScreen.WorkingArea.Width - Width;
         }
     }
 }
