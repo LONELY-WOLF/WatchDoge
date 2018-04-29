@@ -144,6 +144,11 @@ namespace WatchDogeSync
             }
         }
 
+        private void syncToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetTime(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             string[] args = Environment.GetCommandLineArgs();
