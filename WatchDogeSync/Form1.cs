@@ -150,6 +150,8 @@ namespace WatchDogeSync
             if (args.Length > 1)
             {
                 textPort.Text = args[1];
+                serialPort1.PortName = textPort.Text;
+                serialPort1.DtrEnable = false;
                 SetTime(0, 0, 0);
                 System.Threading.Thread.Sleep(2000);
                 if (SetTime(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second) == 0)
